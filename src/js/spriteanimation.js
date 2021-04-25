@@ -37,7 +37,6 @@ export default class SpriteAnimation {
     }
 
     draw(ctx) {
-        ctx.clearRect(0, 0, this.#spriteWidth, this.#spriteHeight);
         let position = Math.floor(this.#dogFrame / this.#staggerFrames) % this.#spriteAnimations[this.spriteState].loc.length;
         let frameX = this.#spriteWidth * position;
         let frameY = this.#spriteAnimations[this.spriteState].loc[position].y;
