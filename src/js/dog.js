@@ -50,43 +50,43 @@ export default class Dog extends SpriteAnimation {
     static dogStates = [
         {
             name: "idle",
-            frames: 7
+            frames: 6
         },
         {
             name: "jump",
-            frames: 7
+            frames: 6
         },
         {
             name: "fall",
-            frames: 7
+            frames: 6
         },
         {
             name: "run",
-            frames: 9
+            frames: 8
         },
         {
             name: "dizzy",
-            frames: 11
+            frames: 10
         },
         {
             name: "sit",
-            frames: 5
+            frames: 4
         },
         {
             name: "roll",
-            frames: 7
+            frames: 6
         },
         {
             name: "bite",
-            frames: 7
+            frames: 6
         },
         {
             name: "ko",
-            frames: 12
+            frames: 11
         },
         {
             name: "getHit",
-            frames: 4
+            frames: 3
         },
     ];
 }

@@ -24,7 +24,7 @@ export default class SpriteAnimation {
             let frames = {
                 loc: []
             };
-            for (let j = 0; j < state.frames - 1; j++) {
+            for (let j = 0; j < state.frames; j++) {
                 let posX = j * this.#spriteWidth;
                 let posY = index * this.#spriteHeight;
                 frames.loc.push({x: posX, y: posY});
