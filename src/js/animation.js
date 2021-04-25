@@ -1,22 +1,13 @@
+import Game from './game.js';
 import Dog from './dog.js';
 
-export default class Animation {
-    #canvas;
-    #ctx;
-    #lastTime = 0;
-    #deltaTime = 0;
-    #CANVAS_WIDTH;
-    #CANVAS_HEIGHT;
-    
+export default class Animation extends Game {
+   
     #dog;
 
-    constructor(canvas, ctx) {
-        this.#canvas = canvas;
-        this.#CANVAS_WIDTH = this.#canvas.width = 600;
-        this.#CANVAS_HEIGHT = this.#canvas.height = 600;
-        this.#ctx = ctx;
+    constructor(canvas, ctx, width, height) {
+        super(canvas, ctx, width, height);
         this.#dog = new Dog(0, 0);
-        this.#init();
     }
 
     setAnimation(animation) {
@@ -57,28 +48,14 @@ export default class Animation {
         }
     }
 
-    #init() {
-        requestAnimationFrame(this.#loop.bind(this));
-    }
-
-    #update(deltaTime)
+    update(deltaTime)
     {
+        super.update(deltaTime);
         this.#dog.update(deltaTime);
     }
 
-    #draw() {
-        this.#ctx.clearRect(0, 0, this.#canvas.width, this.#canvas.height);
-        this.#dog.draw(this.#ctx);
-    }
-
-    #loop(timeStamp) {
-        this.#deltaTime = timeStamp - this.#lastTime;
-        this.#lastTime = timeStamp;
-
-        this.#update(this.#deltaTime);
-
-        this.#draw();
-
-        requestAnimationFrame(this.#loop.bind(this))
+    draw() {
+        super.draw();
+        this.#dog.draw(this.ctx);
     }
 }

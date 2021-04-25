@@ -13,5 +13,5 @@ function initialize() {
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
 
-    anim = new Animation(canvas, context);
+    anim = new Animation(canvas, context, 600, 600);
 }
