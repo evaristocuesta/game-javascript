@@ -3,7 +3,7 @@ import SpriteAnimation from './spriteanimation.js';
 export default class Dog extends SpriteAnimation {
 
     constructor (x, y) {
-        super(x, y, 575, 523, 'images/shadow_dog.png', Dog.dogStates);
+        super(x, y, 575, 523, 4, 4, 'images/shadow_dog.png', Dog.dogStates);
         super.spriteState = 'idle';
     }
 

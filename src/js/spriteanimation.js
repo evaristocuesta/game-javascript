@@ -3,6 +3,8 @@ export default class SpriteAnimation {
     #spriteImage;
     #spriteWidth;
     #spriteHeight;
+    #spriteWidthFactor;
+    #spriteHeightFactor;
     spriteState;
 
     #dogFrame = 0;
@@ -10,11 +12,13 @@ export default class SpriteAnimation {
     #spriteAnimations = [];
     #spriteStates = [];
 
-    constructor(x, y, width, height, src, states) {
+    constructor(x, y, width, height, widthFactor, heightFactor, src, states) {
         this.x = x;
         this.y = y;
         this.#spriteWidth = width;
         this.#spriteHeight = height;
+        this.#spriteWidthFactor = widthFactor;
+        this.#spriteHeightFactor = heightFactor;
         this.#spriteStates = states;
 
         this.#spriteImage = new Image();
@@ -42,8 +46,8 @@ export default class SpriteAnimation {
         let frameY = this.#spriteAnimations[this.spriteState].loc[position].y;
         ctx.drawImage(this.#spriteImage, frameX, frameY, 
             this.#spriteWidth, this.#spriteHeight, 
-            0, 0, 
-            this.#spriteWidth, this.#spriteHeight);
+            this.x, this.y, 
+            this.#spriteWidth / this.#spriteWidthFactor, this.#spriteHeight / this.#spriteHeightFactor);
         this.#dogFrame++;
     }
 }
