@@ -7,14 +7,17 @@ export default class SpriteAnimation {
     #spriteHeightFactor;
     spriteState;
 
-    #dogFrame = 0;
-    #staggerFrames = 5;
+    #frame = 0;
+    #framePosX = 0;
+    #framePosY = 0;
+    staggerFrames = 1;
     #spriteAnimations = [];
     #spriteStates = [];
 
-    constructor(x, y, width, height, widthFactor, heightFactor, src, states) {
+    constructor(x, y, width, height, widthFactor, heightFactor, staggerFrames, src, states) {
         this.x = x;
         this.y = y;
+        this.staggerFrames = staggerFrames;
         this.#spriteWidth = width;
         this.#spriteHeight = height;
         this.#spriteWidthFactor = widthFactor;
@@ -38,16 +41,16 @@ export default class SpriteAnimation {
     }
 
     update(deltaTime) {
+        let position = Math.floor(this.#frame / this.staggerFrames) % this.#spriteAnimations[this.spriteState].loc.length;
+        this.#framePosX = this.#spriteWidth * position;
+        this.#framePosY = this.#spriteAnimations[this.spriteState].loc[position].y;
+        this.#frame++;
     }
 
     draw(ctx) {
-        let position = Math.floor(this.#dogFrame / this.#staggerFrames) % this.#spriteAnimations[this.spriteState].loc.length;
-        let frameX = this.#spriteWidth * position;
-        let frameY = this.#spriteAnimations[this.spriteState].loc[position].y;
-        ctx.drawImage(this.#spriteImage, frameX, frameY, 
+        ctx.drawImage(this.#spriteImage, this.#framePosX, this.#framePosY, 
             this.#spriteWidth, this.#spriteHeight, 
             this.x, this.y, 
             this.#spriteWidth / this.#spriteWidthFactor, this.#spriteHeight / this.#spriteHeightFactor);
-        this.#dogFrame++;
     }
 }
