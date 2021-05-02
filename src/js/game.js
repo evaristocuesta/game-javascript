@@ -6,14 +6,14 @@ export default class Game {
     #CANVAS_WIDTH;
     #CANVAS_HEIGHT;
     
-    constructor(canvas, ctx, width, height) {
+    constructor(canvas, width, height) {
         this.canvas = canvas;
-        this.CANVAS_WIDTH = this.canvas.width = width;
-        this.CANVAS_HEIGHT = this.canvas.height = height;
-        this.ctx = ctx;
+        this.#CANVAS_WIDTH = this.canvas.width = width;
+        this.#CANVAS_HEIGHT = this.canvas.height = height;
+        this.ctx = this.canvas.getContext('2d');
         this.resizeScreen();
-        window.addEventListener("resize", this.resizeScreen);
-        this.#init(this.CANVAS_WIDTH);
+        window.addEventListener("resize", this.resizeScreen.bind(this));
+        this.#init();
     }
 
     #init() {
@@ -40,8 +40,7 @@ export default class Game {
     }
     
     resizeScreen(){
-        console.log(this.canvas.width);
-        var aspectRatio = this.CANVAS_WIDTH / this.CANVAS_HEIGHT;
+        var aspectRatio = this.#CANVAS_WIDTH / this.#CANVAS_HEIGHT;
         var windowRatio = window.innerWidth / window.innerHeight;
     
         if (aspectRatio < windowRatio){

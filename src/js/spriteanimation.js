@@ -3,25 +3,35 @@ export default class SpriteAnimation {
     #spriteImage;
     #spriteWidth;
     #spriteHeight;
+    #widthFactor;
+    #heightFactor;
     #spriteWidthFactor;
     #spriteHeightFactor;
-    spriteState;
-
-    #frame = 0;
+    #spriteState;
+    #x = 0;
+    #y = 0;
+    #speedX = 0;
+    #speedY = 0;
     #framePosX = 0;
     #framePosY = 0;
-    staggerFrames = 1;
+    #frameRate = 1;
+    #flip = false;
     #spriteAnimations = [];
     #spriteStates = [];
+    #position = 0;
+    #time = 0;
+    #period = 0;
 
-    constructor(x, y, width, height, widthFactor, heightFactor, staggerFrames, src, states) {
-        this.x = x;
-        this.y = y;
-        this.staggerFrames = staggerFrames;
+    constructor(x, y, width, height, widthFactor, heightFactor, frameRate, src, states) {
+        this.#x = x;
+        this.#y = y;
+        this.setFrameRate(frameRate);
         this.#spriteWidth = width;
         this.#spriteHeight = height;
-        this.#spriteWidthFactor = widthFactor;
-        this.#spriteHeightFactor = heightFactor;
+        this.#widthFactor = widthFactor;
+        this.#heightFactor = heightFactor;
+        this.#spriteWidthFactor = this.#widthFactor * this.#spriteWidth;
+        this.#spriteHeightFactor = this.#heightFactor * this.#spriteHeight;
         this.#spriteStates = states;
 
         this.#spriteImage = new Image();
@@ -41,16 +51,54 @@ export default class SpriteAnimation {
     }
 
     update(deltaTime) {
-        let position = Math.floor(this.#frame / this.staggerFrames) % this.#spriteAnimations[this.spriteState].loc.length;
-        this.#framePosX = this.#spriteWidth * position;
-        this.#framePosY = this.#spriteAnimations[this.spriteState].loc[position].y;
-        this.#frame++;
+        this.#time += deltaTime;
+        if (this.#time > this.#period) {
+            this.#position ++;
+            this.#position = this.#position % this.#spriteAnimations[this.#spriteState].loc.length;
+            this.#framePosX = this.#spriteWidth * this.#position;
+            this.#framePosY = this.#spriteAnimations[this.#spriteState].loc[this.#position].y;
+            this.#time = 0;
+        }
+        this.#x += deltaTime * this.#speedX;
+        this.#y += deltaTime * this.#speedY;
     }
 
     draw(ctx) {
+        ctx.save();
+        var posX = 0;
+        if (this.#flip) {
+            ctx.scale(-1, 1);
+            posX = -this.#x - this.#spriteWidthFactor;
+        }
+        else {
+            ctx.scale(1, 1);
+            posX = this.#x;
+        }
         ctx.drawImage(this.#spriteImage, this.#framePosX, this.#framePosY, 
             this.#spriteWidth, this.#spriteHeight, 
-            this.x, this.y, 
-            this.#spriteWidth / this.#spriteWidthFactor, this.#spriteHeight / this.#spriteHeightFactor);
+            posX, this.#y, 
+            this.#spriteWidthFactor, this.#spriteHeightFactor);
+        ctx.restore();
+    }
+
+    setSpeedX(speedX) {
+        this.#speedX = speedX;
+    }
+
+    setSpeedY(speedY) {
+        this.#speedY= speedY;
+    }
+
+    setFlip(flip) {
+        this.#flip = flip;
+    }
+
+    setState(state) {
+        this.#spriteState = state;
+    }
+
+    setFrameRate(rate) {
+        this.#frameRate = rate;
+        this.#period = 1000 / rate;
     }
 }

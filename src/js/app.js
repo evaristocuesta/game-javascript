@@ -11,7 +11,5 @@ window.onload = initialize;
 
 function initialize() {
     const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-
-    anim = new Animation(canvas, context, 1920, 1080);
+    anim = new Animation(canvas, 1920, 1080);
 }

@@ -3,48 +3,62 @@ import SpriteAnimation from './spriteanimation.js';
 export default class Dog extends SpriteAnimation {
 
     constructor (x, y) {
-        super(x, y, 575, 523, 4, 4, 2, 'images/shadow_dog.png', Dog.dogStates);
+        super(x, y, 575, 523, 0.25, 0.25, 24, 'images/shadow_dog.png', Dog.dogStates);
         super.spriteState = 'idle';
+    }
+
+    moveLeft() {
+        this.run()
+        super.setFlip(true);
+        this.setSpeedX(-0.4);
+    }
+
+    moveRight() {
+        this.run();
+        super.setFlip(false);
+        this.setSpeedX(0.4);
     }
 
     idle() {
-        super.spriteState = 'idle';
+        super.setState('idle');
+        this.setSpeedX(0);
     }
 
     jump() {
-        super.spriteState = 'jump';
+        super.setState('jump');
+        this.setSpeedY(-0.4);
     }
 
     fall() {
-        super.spriteState = 'fall';
+        super.setState('fall');
     }
 
     run() {
-        super.spriteState = 'run';
+        super.setState('run');
     }
 
     dizzy() {
-        super.spriteState = 'dizzy';
+        super.setState('dizzy');
     }
 
     sit() {
-        super.spriteState = 'sit';
+        super.setState('sit');
     }
 
     roll() {
-        super.spriteState = 'roll';
+        super.setState('roll');
     }
 
     bite() {
-        super.spriteState = 'bite';
+        super.setState('bite');
     }
 
     ko() {
-        super.spriteState = 'ko';
+        super.setState('ko');
     }
 
     getHit() {
-        super.spriteState = 'getHit';
+        super.setState('getHit');
     }
 
     static dogStates = [
