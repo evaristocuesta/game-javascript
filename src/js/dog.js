@@ -2,26 +2,38 @@ import SpriteAnimation from './spriteanimation.js';
 
 export default class Dog extends SpriteAnimation {
 
+    #timeIdle = 0;
+
     constructor (x, y) {
         super(x, y, 575, 523, 0.25, 0.25, 24, 'images/shadow_dog.png', Dog.dogStates);
-        super.spriteState = 'idle';
+        this.idle();
     }
 
     moveLeft() {
+        this.#timeIdle = 0;
         this.run()
         super.setFlip(true);
         this.setSpeedX(-0.4);
     }
 
     moveRight() {
+        this.#timeIdle = 0;
         this.run();
         super.setFlip(false);
         this.setSpeedX(0.4);
     }
 
     idle() {
-        super.setState('idle');
-        this.setSpeedX(0);
+        super.setFrameRate(24);
+        if (this.#timeIdle <= 10000) {
+            this.standing();
+        }
+        else if (this.#timeIdle <= 20000) {
+            this.sit();
+        }
+        else if (this.#timeIdle > 20000) {
+            this.#timeIdle = 0;
+        }
     }
 
     jump() {
@@ -34,6 +46,7 @@ export default class Dog extends SpriteAnimation {
     }
 
     run() {
+        super.setFrameRate(24);
         super.setState('run');
     }
 
@@ -41,7 +54,13 @@ export default class Dog extends SpriteAnimation {
         super.setState('dizzy');
     }
 
+    standing() {
+        super.setFrameRate(24);
+        super.setState('standing');
+    }
+
     sit() {
+        super.setFrameRate(12);
         super.setState('sit');
     }
 
@@ -63,7 +82,7 @@ export default class Dog extends SpriteAnimation {
 
     static dogStates = [
         {
-            name: "idle",
+            name: "standing",
             frames: 6
         },
         {
@@ -103,4 +122,9 @@ export default class Dog extends SpriteAnimation {
             frames: 3
         },
     ];
+
+    update(deltaTime) {
+        this.#timeIdle += deltaTime;
+        super.update(deltaTime);
+    }
 }

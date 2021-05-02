@@ -49,6 +49,7 @@ export default class Animation extends Game {
         else {
             this.#parallaxBkg.speed = 0;
             this.#dog.idle();
+            this.#dog.setSpeedX(0);
             this.#parallaxBkg.setSpeed(0);
         }
         if (this.#keyboardController.keys.SPACE.isPressed) {

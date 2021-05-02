@@ -97,6 +97,10 @@ export default class SpriteAnimation {
         this.#spriteState = state;
     }
 
+    getState() {
+        return this.#spriteState;
+    }
+
     setFrameRate(rate) {
         this.#frameRate = rate;
         this.#period = 1000 / rate;
